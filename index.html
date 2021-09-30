@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pin Generator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="pin-generator half-width">
+                    <input class="form-control" type="text" id="output-pin">
+                    <button class="generate-btn" id="pin-generate">Generate Pin</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="input-section half-width">
+                    <input class="form-control" type="text" id="input-area">
+                    <div class="numbers">
+                        <div class="calc-body">
+                            <div class="calc-button-row">
+                              <div onclick="inputKeys(7)"class="button">7</div>
+                              <div onclick="inputKeys(8)" class="button">8</div>
+                              <div onclick="inputKeys(9)" class="button">9</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div onclick="inputKeys(4)" class="button">4</div>
+                              <div onclick="inputKeys(5)" class="button">5</div>
+                              <div onclick="inputKeys(6)" class="button">6</div>
+                            </div>
+                            <div class="calc-button-row">
+                              <div onclick="inputKeys(1)" class="button">1</div>
+                              <div onclick="inputKeys(2)" class="button">2</div>
+                              <div onclick="inputKeys(3)" class="button">3</div>
+                            </div>
+                            <div class="calc-button-row">
+                                <div onclick="backspace('<')" class="button"><</div>
+                                <div onclick="inputKeys(0)" class="button">0</div>
+                                <div onclick="clearAll('c')" class="button">C</div>
+                            </div>
+                            <div>
+                                <button type="submit" class="submit-btn" id="submit">Submit</button>
+                                <p class="action-left">3 try left</p>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="notify-section">
+            <p class="notify"id="not-matched">❌ Pin Didn't Match, Please try again</p>
+            <p class="notify"id="matched">✅ Pin Matched... Secret door is opening for you</p>
+        </div>
+    </div>
+</body>
+<script>
+  var pinGenerator = document.getElementById('pin-generate');
+  pinGenerator.addEventListener('click', function(){
+    var outputBox = document.getElementById('output-pin');
+    outputBox.value = Math.round(Math.random()*9999);
+    document.getElementById('not-matched').style.display = "none";
+    document.getElementById('matched').style.display = "none";
+  })
+  function inputKeys(num){
+    var numbers = document.getElementById('input-area');
+    numbers.value += num;
+  }
+  var result = document.getElementById('submit');
+  result.addEventListener('click', function(){
+    var match1 = document.getElementById('output-pin');
+    var output = match1.value;
+    var match2 = document.getElementById('input-area');
+    var output2 = match2.value;
+    if(output == output2){
+      document.getElementById('matched').style.display = "block";
+      document.getElementById('not-matched').style.display = "none";
+    }
+    else if(output !== output2){
+      document.getElementById('not-matched').style.display = "block";
+      document.getElementById('matched').style.display = "none";
+    }
+  })
+  function clearAll(){
+    var display = document.getElementById('input-area');
+    display.value = '';
+  }
+  function backspace(){
+    var display = document.getElementById('input-area');
+    var number = display.value;
+    number = number.slice(0, -1);
+    display.value = number;
+  }
+</script>
+</html>
